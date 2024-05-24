@@ -16,9 +16,8 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 500,
-  bgcolor: "#121113",
-  color: "white",
-  border: "2px solid #000",
+  bgcolor: "background.paper",
+  outline: "none",
   boxShadow: 24,
   p: 2,
 };
@@ -35,29 +34,30 @@ export default function UserList({ handleClose, open }) {
       >
         <Box sx={style}>
           {task.map((item, index) => (
-            <>
-              <div className="flex mt-5 mb-2 w-full">
+            <div key={index}>
+              <div className="flex m-2">
                 <ListItem>
                   <ListItemAvatar>
                     <Avatar src="https://www.shutterstock.com/image-vector/abstract-boy-avtar-character-fiction-260nw-2168819879.jpg" />
                   </ListItemAvatar>
-                  <div>
-                    <h1>Code Hype</h1>
-                    <p className="text-xs">@code_hype</p>
-                  </div>
+                  <ListItemText
+                    secondary="@code_hype"
+                    primary={"Code Hype"}
+                  ></ListItemText>
                 </ListItem>
                 <Button
                   sx={{
-                    paddingX: 5,
                     backgroundImage: "linear-gradient(150deg,#c24dd0,#7a72fa)",
                     color: "white",
+                    marginY: "auto",
+                    paddingX: 3,
                   }}
                 >
-                  Select{" "}
+                  Select
                 </Button>
               </div>
-              {index === task.length - 1 ? <></> : <hr />}
-            </>
+              {index === task.length - 1 ? <></> : <Divider />}
+            </div>
           ))}
         </Box>
       </Modal>

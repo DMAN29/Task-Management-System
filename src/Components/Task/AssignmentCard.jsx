@@ -63,7 +63,10 @@ const AssignmentCard = () => {
         </p>
         <ul className="mt-2 uppercase flex flex-wrap space-x-5">
           {lang.map((item, index) => (
-            <li className="border-[#B952E0] border py-1 px-5 rounded-full mb-1">
+            <li
+              className="border-[#B952E0] border py-1 px-5 rounded-full mb-1"
+              key={index}
+            >
               {item}
             </li>
           ))}
@@ -90,14 +93,14 @@ const AssignmentCard = () => {
           }}
         >
           {role === "ROLE_ADMIN" ? (
-            <>
+            <div>
               <MenuItem onClick={handleOpenUserList}>Assigned Users</MenuItem>
               <MenuItem onClick={handleOpenSubmissionList}>
                 See Submissions
               </MenuItem>
               <MenuItem onClick={handleOpenUpdateTaskModel}>Edit</MenuItem>
               <MenuItem onClick={handleDeleteTaskModel}>Delete</MenuItem>
-            </>
+            </div>
           ) : (
             <></>
           )}

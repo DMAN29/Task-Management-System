@@ -65,9 +65,7 @@ const MenuBar = () => {
               <div
                 key={index}
                 className={`text-center text-base lg:text-lg py-2 border border-[#B952E0]  mx-5 rounded-full ${
-                  activeMenu === item.name
-                    ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
-                    : "bg-none"
+                  activeMenu === item.name ? "btnGrad" : "bg-none"
                 } cursor-pointer`}
                 onClick={() => handleMenuChange(item)}
               >
