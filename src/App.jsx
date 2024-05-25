@@ -4,11 +4,12 @@ import MenuBar from "./Components/MenuBar";
 import Assignment from "./Components/Task/AssignmentCard";
 import { ThemeProvider } from "@mui/material";
 import { DarkTheme } from "./theme/DarkTheme";
+import Auth from "./Components/Auth/Auth";
 function App() {
   return (
     <ThemeProvider theme={DarkTheme}>
       <>
-        <Navbar />
+        {/* <Navbar />
         <div className="lg:w-5/6 mx-auto flex my-8">
           <MenuBar />
           <div className="w-full  space-y-8">
@@ -16,7 +17,8 @@ function App() {
               <Assignment key={index} />
             ))}
           </div>
-        </div>
+        </div> */}
+        <Auth />
       </>
     </ThemeProvider>
   );

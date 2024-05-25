@@ -153,7 +153,7 @@ export default function EditTaskCard({ handleClose, open }) {
                   fullWidth
                   type="submit"
                   sx={{ Padding: ".9rem" }}
-                  className="btnGrad"
+                  className="custom-btn"
                 >
                   Update
                 </Button>

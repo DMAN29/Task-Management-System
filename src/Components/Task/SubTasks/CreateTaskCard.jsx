@@ -154,7 +154,7 @@ export default function CreateTaskCard({ handleClose, open }) {
                   fullWidth
                   type="submit"
                   sx={{ Padding: ".9rem" }}
-                  className="btnGrad"
+                  className="custom-btn"
                 >
                   Create
                 </Button>
