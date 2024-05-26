@@ -2,8 +2,11 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Autocomplete, Button, Grid, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasksById } from "../../../Store/TaskSlice";
+import { useLocation } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -18,6 +21,11 @@ const style = {
 };
 
 export default function EditTaskCard({ handleClose, open }) {
+  const dispatch = useDispatch();
+  const { task } = useSelector((store) => store);
+  const location = useLocation();
+  const urlParam = new URLSearchParams(location.search);
+  const taskId = urlParam.get("taskId");
   const [formData, setFormData] = useState({
     title: "",
     image: "",
@@ -86,6 +94,14 @@ export default function EditTaskCard({ handleClose, open }) {
     handleClose();
   };
 
+  useEffect(() => {
+    dispatch(fetchTasksById(taskId));
+  }, [taskId]);
+
+  useEffect(() => {
+    if (task.taskDetails) setFormData(task.taskDetails);
+  }, [task.taskDetails]);
+  console.log("task---------------------", task);
   return (
     <div>
       <Modal

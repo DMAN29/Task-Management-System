@@ -4,7 +4,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Autocomplete, Button, Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { Padding } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { createTask } from "../../../Store/TaskSlice";
 
 const style = {
   position: "absolute",
@@ -19,6 +20,8 @@ const style = {
 };
 
 export default function CreateTaskCard({ handleClose, open }) {
+  const dispatch = useDispatch();
+  const { task } = useSelector((store) => store);
   const [formData, setFormData] = useState({
     title: "",
     image: "",
@@ -84,6 +87,7 @@ export default function CreateTaskCard({ handleClose, open }) {
     formData.tags = selectedTags;
     formData.deadline = formatDate(formData.deadline);
     console.log(formData);
+    dispatch(createTask(formData));
     handleClose();
   };
 

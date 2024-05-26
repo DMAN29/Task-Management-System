@@ -1,35 +1,49 @@
 import { Avatar, Button } from "@mui/material";
 import React, { useState } from "react";
 import CreateTaskCard from "./Task/SubTasks/CreateTaskCard";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../Store/AuthSlice";
 
-const MenuBar = () => {
+const MenuBar = ({ role }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const { auth } = useSelector((store) => store);
+  // console.log("user", auth);
   const menu = [
     {
       name: "Home",
-      role: ["ROLE-ADMIN", "ROLE-USER"],
+      value: "HOME",
+      role: ["ROLE_ADMIN", "ROLE_CUSTOMER"],
     },
     {
       name: "Done",
-      role: ["ROLE-ADMIN", "ROLE-USER"],
+      value: "DONE",
+      role: ["ROLE_ADMIN", "ROLE_CUSTOMER"],
     },
     {
       name: "Assigned",
-      role: ["ROLE-ADMIN"],
+      value: "ASSIGNED",
+      role: ["ROLE_ADMIN"],
     },
     {
       name: "Not Assigned",
-      role: ["ROLE-ADMIN"],
+      value: "PENDING",
+      role: ["ROLE_ADMIN"],
     },
     {
       name: "Create New Task",
-      role: ["ROLE-ADMIN"],
+      value: "NEW-TASK",
+      role: ["ROLE_ADMIN"],
     },
     {
       name: "Notification",
-      role: ["ROLE-USER"],
+      value: "NOTIFICATION",
+      role: ["ROLE_CUSTOMER"],
     },
   ];
-  const role = "ROLE-ADMIN";
+
   const [activeMenu, setActiveMenu] = useState("Home");
   const [openCreateTaskCard, setOpenCreateTaskCard] = useState(false);
   const handleOpenCreateTaskModel = () => {
@@ -39,10 +53,26 @@ const MenuBar = () => {
     setOpenCreateTaskCard(false);
   };
   const handleMenuChange = (item) => {
+    const updatedParams = new URLSearchParams(location.search);
     setActiveMenu(item.name);
     if (item.name === "Create New Task") {
       handleOpenCreateTaskModel();
     }
+    if (item.name == "Home") {
+      updatedParams.delete("filter");
+      const queryString = updatedParams.toString();
+      const updatedPath = queryString
+        ? `${location.pathname}?${queryString}`
+        : location.pathname;
+      navigate(updatedPath);
+    } else {
+      updatedParams.set("filter", item.value);
+      navigate(`${location.pathname}?${updatedParams.toString()}`);
+    }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
   return (
     <>
@@ -65,7 +95,7 @@ const MenuBar = () => {
               <div
                 key={index}
                 className={`text-center text-base lg:text-lg py-2 border border-[#B952E0]  mx-5 rounded-full ${
-                  activeMenu === item.name ? "btnGrad" : "bg-none"
+                  activeMenu === item.name ? "custom-btn" : "bg-none"
                 } cursor-pointer`}
                 onClick={() => handleMenuChange(item)}
               >
@@ -73,7 +103,10 @@ const MenuBar = () => {
               </div>
             ))}
         </div>
-        <div className="text-white text-base lg:text-lg py-2 border mx-5 text-center rounded-full bg-gradient-to-r from-amber-500 to-pink-500">
+        <div
+          className="text-white text-base lg:text-lg py-2 border mx-5 text-center rounded-full bg-gradient-to-r from-amber-500 to-pink-500 cursor-pointer"
+          onClick={handleLogout}
+        >
           LOGOUT
         </div>
       </div>

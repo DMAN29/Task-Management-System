@@ -1,25 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Components/Navbar";
 import MenuBar from "./Components/MenuBar";
-import Assignment from "./Components/Task/AssignmentCard";
+import TaskList from "./Components/TaskList";
+import Auth from "./Components/Auth/Auth";
 import { ThemeProvider } from "@mui/material";
 import { DarkTheme } from "./theme/DarkTheme";
-import Auth from "./Components/Auth/Auth";
+import { getUserProfile } from "./Store/AuthSlice";
+
 function App() {
+  const dispatch = useDispatch();
+  const { auth } = useSelector((store) => store);
+
+  useEffect(() => {
+    dispatch(getUserProfile(localStorage.getItem("jwt")) || auth.jwt);
+  }, [auth.jwt]);
+
   return (
     <ThemeProvider theme={DarkTheme}>
-      <>
-        {/* <Navbar />
-        <div className="lg:w-5/6 mx-auto flex my-8">
-          <MenuBar />
-          <div className="w-full  space-y-8">
-            {[1, 1, 1, 1, 1, 1].map((item, index) => (
-              <Assignment key={index} />
-            ))}
+      {auth.user ? (
+        <div>
+          <Navbar />
+          <div className="lg:w-5/6 mx-auto flex my-8">
+            <MenuBar role={auth.user.role} />
+            <TaskList />
           </div>
-        </div> */}
+        </div>
+      ) : (
         <Auth />
-      </>
+      )}
     </ThemeProvider>
   );
 }

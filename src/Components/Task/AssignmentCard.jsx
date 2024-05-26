@@ -4,9 +4,13 @@ import { Button, IconButton, Menu, MenuItem } from "@mui/material";
 import UserList from "./SubTasks/UserList";
 import SubmissionList from "./SubTasks/SubmissionList";
 import EditTaskCard from "./SubTasks/EditTaskCard";
-const AssignmentCard = () => {
-  const lang = ["HTML", "CSS", "JavaScript", "React Js", "Java", "SpringBoot"];
-  const role = "ROLE_ADMIN";
+import { useDispatch } from "react-redux";
+import { deleteTask } from "../../Store/TaskSlice";
+import { useLocation, useNavigate } from "react-router-dom";
+const AssignmentCard = ({ item, role }) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handelMenuClick = (event) => {
@@ -36,33 +40,39 @@ const AssignmentCard = () => {
 
   const [openUpdateTaskCard, setOpenUpdateTaskCard] = useState(false);
   const handleOpenUpdateTaskModel = () => {
+    const updatedParams = new URLSearchParams(location.search);
     setOpenUpdateTaskCard(true);
+    updatedParams.set("taskId", item.id);
+    navigate(`${location.pathname}?${updatedParams.toString()}`);
     handleMenuClose();
   };
   const handleCloseUpdateTaskModel = () => {
     setOpenUpdateTaskCard(false);
+    const updatedParams = new URLSearchParams(location.search);
+    updatedParams.delete("taskId");
+    const queryString = updatedParams.toString();
+    const updatedPath = queryString
+      ? `${location.pathname}?${queryString}`
+      : location.pathname;
+    navigate(updatedPath);
   };
 
   const handleDeleteTaskModel = () => {
+    dispatch(deleteTask(item.id));
     handleMenuClose();
   };
   return (
     <div className="bg-gray-900 shadow-purple-400 shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full py-5 px-5 flex justify-between">
       <img
-        src="https://www.livemint.com/lm-img/img/2023/12/19/1600x900/luxury_watches_for_men_1702968689078_1702968694832.jpg"
+        src={item.image}
         alt=""
         className="h-36 w-36 object-cover object-center rounded-md my-auto "
       />
       <div className="mx-5 my-auto ">
-        <h3 className="text-xl font-bold pb-2"> Watch Listing Website </h3>
-        <p className="text-gray-400">
-          {" "}
-          isquam quia, quaerat dignissimos maxime doloribus suscipit, tempora
-          sint doloremque sapiente autem consequatur fuga. Saepe ut temporibus
-          itaque.{" "}
-        </p>
+        <h3 className="text-xl font-bold pb-2"> {item.title} </h3>
+        <p className="text-gray-400">{item.description}</p>
         <ul className="mt-2 uppercase flex flex-wrap space-x-5">
-          {lang.map((item, index) => (
+          {item.tags.map((item, index) => (
             <li
               className="border-[#B952E0] border py-1 px-5 rounded-full mb-1"
               key={index}
