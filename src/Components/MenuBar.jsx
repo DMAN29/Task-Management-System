@@ -9,8 +9,6 @@ const MenuBar = ({ role }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const { auth } = useSelector((store) => store);
-  // console.log("user", auth);
   const menu = [
     {
       name: "Home",
@@ -58,7 +56,7 @@ const MenuBar = ({ role }) => {
     if (item.name === "Create New Task") {
       handleOpenCreateTaskModel();
     }
-    if (item.name == "Home") {
+    if (item.name == "Home" || item.name === "Create New Task") {
       updatedParams.delete("filter");
       const queryString = updatedParams.toString();
       const updatedPath = queryString
@@ -78,7 +76,7 @@ const MenuBar = ({ role }) => {
     <>
       <div className="h-[85vh] w-1/3 mx-8 sticky top-24 bg-gray-900 shadow-purple-400 shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
         <Avatar
-          src="https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-600w-2227567913.jpg"
+          src="https://i.pinimg.com/736x/d6/a6/92/d6a692fc1e0489955e2b4ed4ae742c76.jpg"
           sx={{
             width: 150,
             height: 150,

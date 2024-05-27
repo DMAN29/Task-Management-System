@@ -7,6 +7,7 @@ import EditTaskCard from "./SubTasks/EditTaskCard";
 import { useDispatch } from "react-redux";
 import { deleteTask } from "../../Store/TaskSlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import SubmitTaskCard from "./SubTasks/SubmitTaskCard";
 const AssignmentCard = ({ item, role }) => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -14,12 +15,24 @@ const AssignmentCard = ({ item, role }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handelMenuClick = (event) => {
+    const updateParam = new URLSearchParams(location.search);
+    updateParam.set("taskId", item.id);
+    navigate(`${location.pathname}?${updateParam.toString()}`);
     setAnchorEl(event.currentTarget);
   };
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
+  const removeParam = () => {
+    const updatedParams = new URLSearchParams(location.search);
+    updatedParams.delete("taskId");
+    const queryString = updatedParams.toString();
+    const updatedPath = queryString
+      ? `${location.pathname}?${queryString}`
+      : location.pathname;
+    navigate(updatedPath);
+  };
   const [openUserList, setOpenUserList] = useState(false);
   const handleOpenUserList = () => {
     setOpenUserList(true);
@@ -27,6 +40,7 @@ const AssignmentCard = ({ item, role }) => {
   };
   const handleCloseUserList = () => {
     setOpenUserList(false);
+    removeParam();
   };
 
   const [openSubmissionList, setOpenSubmissionList] = useState(false);
@@ -36,39 +50,43 @@ const AssignmentCard = ({ item, role }) => {
   };
   const handleCloseSubmissionList = () => {
     setOpenSubmissionList(false);
+    removeParam();
   };
 
   const [openUpdateTaskCard, setOpenUpdateTaskCard] = useState(false);
   const handleOpenUpdateTaskModel = () => {
-    const updatedParams = new URLSearchParams(location.search);
     setOpenUpdateTaskCard(true);
-    updatedParams.set("taskId", item.id);
-    navigate(`${location.pathname}?${updatedParams.toString()}`);
     handleMenuClose();
   };
   const handleCloseUpdateTaskModel = () => {
     setOpenUpdateTaskCard(false);
-    const updatedParams = new URLSearchParams(location.search);
-    updatedParams.delete("taskId");
-    const queryString = updatedParams.toString();
-    const updatedPath = queryString
-      ? `${location.pathname}?${queryString}`
-      : location.pathname;
-    navigate(updatedPath);
+    removeParam();
   };
 
   const handleDeleteTaskModel = () => {
     dispatch(deleteTask(item.id));
     handleMenuClose();
+    removeParam();
   };
+
+  const [openSubmitTaskCard, setOpenSubmitTaskCard] = useState(false);
+  const handleOpenSubmitTaskModel = () => {
+    setOpenSubmitTaskCard(true);
+    handleMenuClose();
+  };
+  const handleCloseSubmitTaskModel = () => {
+    setOpenSubmitTaskCard(false);
+    removeParam();
+  };
+
   return (
-    <div className="bg-gray-900 shadow-purple-400 shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full py-5 px-5 flex justify-between">
+    <div className="bg-gray-900 shadow-purple-400 shadow-[0_3px_10px_rgb(0,0,0,0.2)] w-full py-5 px-5 flex justify-around ">
       <img
         src={item.image}
         alt=""
         className="h-36 w-36 object-cover object-center rounded-md my-auto "
       />
-      <div className="mx-5 my-auto ">
+      <div className="mx-5 my-auto w-full">
         <h3 className="text-xl font-bold pb-2"> {item.title} </h3>
         <p className="text-gray-400">{item.description}</p>
         <ul className="mt-2 uppercase flex flex-wrap space-x-5">
@@ -112,7 +130,7 @@ const AssignmentCard = ({ item, role }) => {
               <MenuItem onClick={handleDeleteTaskModel}>Delete</MenuItem>
             </div>
           ) : (
-            <></>
+            <MenuItem onClick={handleOpenSubmitTaskModel}>Submit Task</MenuItem>
           )}
         </Menu>
       </div>
@@ -124,6 +142,10 @@ const AssignmentCard = ({ item, role }) => {
       <EditTaskCard
         open={openUpdateTaskCard}
         handleClose={handleCloseUpdateTaskModel}
+      />
+      <SubmitTaskCard
+        open={openSubmitTaskCard}
+        handleClose={handleCloseSubmitTaskModel}
       />
     </div>
   );

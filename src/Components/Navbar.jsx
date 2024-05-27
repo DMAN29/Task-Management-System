@@ -12,7 +12,9 @@ const Navbar = () => {
       </div>
       <div className="flex space-x-3 md:space-x-10 my-auto">
         <p className="my-auto">{auth.user?.fullName}</p>
-        <Avatar sx={{ background: "#6366f1" }}>C</Avatar>
+        <Avatar sx={{ background: "#6366f1" }}>
+          {auth.user?.fullName.charAt(0)}
+        </Avatar>
       </div>
     </div>
   );

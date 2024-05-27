@@ -21,9 +21,13 @@ const TaskList = () => {
 
   return (
     <div className="w-full  space-y-8">
-      {task.tasks.map((item) => (
-        <AssignmentCard key={item.id} item={item} role={auth.user?.role} />
-      ))}
+      {auth.user.role === "ROLE_ADMIN"
+        ? task.tasks.map((item) => (
+            <AssignmentCard key={item.id} item={item} role={auth.user?.role} />
+          ))
+        : task.usersTask.map((item) => (
+            <AssignmentCard key={item.id} item={item} role={auth.user?.role} />
+          ))}
     </div>
   );
 };

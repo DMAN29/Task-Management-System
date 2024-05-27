@@ -7,8 +7,7 @@ export const submitTask = createAsyncThunk(
     setAuthHeader(localStorage.getItem("jwt"), api);
     try {
       const { data } = await api.post(
-        `/api/submissions?task_id=${taskId}&${githubLink}`,
-        {}
+        `/api/submissions?task_id=${taskId}&githubLink=${githubLink}`
       );
       console.log("submitted task", data);
       return data;
@@ -39,7 +38,7 @@ export const fetchSubmissionByTaskId = createAsyncThunk(
   async (taskId) => {
     setAuthHeader(localStorage.getItem("jwt"), api);
     try {
-      const { data } = await api.get(`/api/submissions/${taskId}`);
+      const { data } = await api.get(`/api/submissions/task/${taskId}`);
       console.log("Fetch submitted task by id", data);
       return data;
     } catch (error) {
