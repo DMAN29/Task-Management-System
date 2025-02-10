@@ -5,7 +5,7 @@ TaskTracker is a task management system built using a microservices architecture
 
 ## Technologies Used
 - **Backend:** Spring Boot, Microservices, MySQL
-- **Frontend:** React.js
+- **Frontend:** React.js (Vite)
 - **Security:** JWT-based authentication, Role-based access control
 
 ## Features
@@ -16,8 +16,10 @@ TaskTracker is a task management system built using a microservices architecture
 
 ## Repository
 - **Backend Repository:** [Task-Management-System-Backend](https://github.com/DMAN29/Task-Management-System-Backend)
+- **Frontend Repository:** [Task-Management-System](https://github.com/DMAN29/Task-Management-System)
 
 ## Setup Instructions
+### Backend Setup
 1. Clone the backend repository:
    ```sh
    git clone https://github.com/DMAN29/Task-Management-System-Backend.git
@@ -30,6 +32,24 @@ TaskTracker is a task management system built using a microservices architecture
 4. Run the backend application:
    ```sh
    mvn spring-boot:run
+   ```
+
+### Frontend Setup (Vite)
+1. Clone the frontend repository:
+   ```sh
+   git clone https://github.com/DMAN29/Task-Management-System.git
+   ```
+2. Navigate to the project directory:
+   ```sh
+   cd Task-Management-System
+   ```
+3. Install dependencies:
+   ```sh
+   npm install
+   ```
+4. Start the frontend application:
+   ```sh
+   npm run dev
    ```
 
 ## Contribution
