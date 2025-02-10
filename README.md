@@ -55,6 +55,5 @@ TaskTracker is a task management system built using a microservices architecture
 ## Contribution
 Feel free to fork the repository and submit pull requests to improve the project.
 
-## License
-This project is licensed under the MIT License.
+
 
